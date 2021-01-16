@@ -2,6 +2,8 @@ import 'dart:html';
 
 import 'dart:math';
 
+import 'stateManager.dart';
+
 class Sketch {
   num _lastTimeStamp = 0;
   num GAME_SPEED;
@@ -15,6 +17,8 @@ class Sketch {
 
   AnimationPhase animation_phase = AnimationPhase.curr_location;
 
+  StateManager s = StateManager();
+
   Sketch(double framerate, this.canvas) {
     GAME_SPEED = 1000 / framerate;
 
@@ -25,11 +29,7 @@ class Sketch {
     //draw background
     ctx
       ..scale(1, -1)
-      ..translate(0, -canvas.height)
-      ..lineWidth = 2
-      ..setFillColorRgb(220, 220, 220)
-      ..fillRect(0, 0, canvas.width, canvas.height)
-      ..strokeRect(0, 0, canvas.width, canvas.height);
+      ..translate(0, -canvas.height);
 
     //Define triangle vertices
     var m = Point(canvas.width / 2, canvas.height / 2);
@@ -66,7 +66,8 @@ class Sketch {
 
     if (diff > GAME_SPEED) {
       _lastTimeStamp = delta;
-      drawFrame();
+      if (s.is_running) drawFrame();
+      if (s.is_resetting) _clearCanvas();
     }
     run();
   }
@@ -128,9 +129,9 @@ class Sketch {
 
   void _clearCanvas() {
     ctx
-      ..fillStyle = 'white'
+      ..lineWidth = 2
+      ..setFillColorRgb(220, 220, 220)
       ..fillRect(0, 0, canvas.width, canvas.height)
-      ..strokeStyle = 'black'
       ..strokeRect(0, 0, canvas.width, canvas.height);
   }
 }
