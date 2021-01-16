@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html data-wf-status="1" class=" w-mod-js" data-whatinput="keyboard" data-whatintent="mouse">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <title>Sorting</title>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <link rel="icon" href="favicon.ico">
+  <link href="styles.css" rel="stylesheet" type="text/css">
+  <script defer src="main.dart.js"></script>
+</head>
+
+<body class="body">
+  <div data-collapse="medium" data-animation="over-right" data-duration="400" role="banner" class="navbar w-nav">
+    <div class="w-nav-button" style="-webkit-user-select: text;" aria-label="menu"
+      role="button" tabindex="0" aria-controls="w-nav-overlay-0" aria-haspopup="menu" aria-expanded="false">
+      <div class="w-icon-nav-menu"></div>
+    </div>
+    <nav role="navigation" class="w-nav-menu">
+      <!-- TODO: Add refs -->
+      <a href="#" class="nav-link w-nav-link">Home</a>
+      <a href="#" class="nav-link-2 w-nav-link">About</a>
+    </nav>
+    <a href="#" aria-current="page" class="brand-2 w-nav-brand w--current" aria-label="home">
+      <h2 class="heading-3">𝔸𝕝𝕞𝕒</h2>
+    </a>
+    <div class="w-nav-overlay" data-wf-ignore="" id="w-nav-overlay-0"></div>
+  </div>
+  <div class="section">
+    <div class="container w-container heading">
+      <h1>Sierpinski Triangle</h1>
+      <p>A randomized algorithm</p>
+    </div>
+  </div>
+  <div class="section-2">
+    <div class="w-container container-2">
+      <h2>Visualization</h2>
+      <div class="columns w-row">
+        <div class="column-2 w-col w-col-9">
+          <canvas id="canvasHolder"></canvas>
+        </div>
+        <div class="column-3 w-col w-col-3">
+          <div class="w-form">
+            <label for="name" id="lbl_algoSelection">Algorithm</label>
+            <select id="dd_form" class="w-select">
+              <option value="bubbleSort" selected="selected">BubbleSort</option>
+              <option value="insertionSort">InsertionSort</option>
+              <option value="mergeSort">MergeSort</option>
+              <option value="quickSort">QuickSort</option>
+            </select>
+            <label for="name-3" id="lbl_arraySize" class="field-label-2">Array Size</label>
+            <input type="number" class="w-input" maxlength="256" name="field-3"
+              data-name="Field 3" placeholder="between 5 and 20" id="tf_arraySize"
+              required="" min="5" max="20" value="10">
+          </div>
+          <div>
+            <div class="w-row">
+              <div class="column-4 w-col w-col-6">
+                <button type="button" id="b_run" class="button-3 w-button">Run</button>
+              </div>
+              <div class="column-5 w-col w-col-6">
+                <button type="button" id="b_reset" class="button-3 w-button">Reset</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="Section-3">
+    <div class="container-2 w-container">
+      <h2>About</h2>
+      <p>This page visualizes how various sorting algorithm work.</p>
+      <h3>BubbleSort</h3>
+      <p>
+        Bubblesort works in passes through the structure that holds elements. Durin a
+        pass the algorithm starts at one end works its way through each position of the
+        structure. At each position, it tests whether the current element and its
+        neighbour are correctly ordered. If that is not the case, the elements are
+        swapped.
+      </p>
+      <p>
+        Note that after the first pass, the largest element will be at the very right,
+        where it belongs. This is true, because at each position, the larger of both
+        elements is swapped. At some point during the first pass, the largest element must
+        be swapped with some neighbour. And the again, until it reaches the end. This
+        procedure is the repeated. I.e., after the second pass, the second largest element
+        is correctly placed as second to last element on the right.
+      </p>
+      <p>
+        This notion of letting the largest elements incrementally rise to their correct
+        place to the right is what gives the algorithm its name. The largest elements
+        "bubble up" through the array.
+      </p>
+      <h3>InsertionSort</h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt erat vel
+        lacus scelerisque gravida. Cras eros enim, lobortis at condimentum at, pretium vel
+        ante. Quisque tincidunt nunc tellus, vel porta mauris aliquam a. Nam sodales, nisl
+        nec malesuada tincidunt, tellus turpis lacinia tellus, ut posuere enim sapien eget
+        nisi. Interdum et malesuada fames ac ante ipsum primis in faucibus. Morbi porta ante
+        est, ut vulputate quam molestie nec. Aliquam erat volutpat. </p>
+    </div>
+  </div>
+  <div class="section-4">
+    <h1 class="heading-2">𝔸𝕝𝕞𝕒</h1>
+  </div>
+</body>
+
+</html>
+
