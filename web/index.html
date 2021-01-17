@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
-  <title>Sorting</title>
+  <title>Chaos Game</title>
   <meta content="width=device-width, initial-scale=1" name="viewport">
   <link rel="icon" href="favicon.ico">
   <link href="styles.css" rel="stylesheet" type="text/css">
@@ -29,8 +29,8 @@
   </div>
   <div class="section">
     <div class="container w-container heading">
-      <h1>Sierpinski Triangle</h1>
-      <p>A randomized algorithm</p>
+      <h1>Chaos Game</h1>
+      <p>An iterated function system producing a fractal.</p>
     </div>
   </div>
   <div class="section-2">
@@ -42,26 +42,20 @@
         </div>
         <div class="column-3 w-col w-col-3">
           <div class="w-form">
-            <label for="name" id="lbl_algoSelection">Algorithm</label>
-            <select id="dd_form" class="w-select">
-              <option value="bubbleSort" selected="selected">BubbleSort</option>
-              <option value="insertionSort">InsertionSort</option>
-              <option value="mergeSort">MergeSort</option>
-              <option value="quickSort">QuickSort</option>
+            <label for="name" id="lbl_algoSelection">Initial Configuration</label>
+            <select id="dd_mode" class="w-select">
+              <option value="fixed" selected="selected">Fixed</option>
+              <option value="start">Set Start</option>
+              <option value="all">Set Everything</option>
             </select>
-            <label for="name-3" id="lbl_arraySize" class="field-label-2">Array Size</label>
-            <input type="number" class="w-input" maxlength="256" name="field-3"
-              data-name="Field 3" placeholder="between 5 and 20" id="tf_arraySize"
-              required="" min="5" max="20" value="10">
+            <label for="name-3" id="lbl_arraySize" class="field-label-2">Animation Speed</label>
+            <input type="range" class="slider" id="r_speed" 
+            min="1" max="30" value="3">
           </div>
           <div>
-            <div class="w-row">
-              <div class="column-4 w-col w-col-6">
+            <div class="w-row" style="justify-content: space-between; display: flex;">
                 <button type="button" id="b_run" class="button-3 w-button">Run</button>
-              </div>
-              <div class="column-5 w-col w-col-6">
                 <button type="button" id="b_reset" class="button-3 w-button">Reset</button>
-              </div>
             </div>
           </div>
         </div>
@@ -70,36 +64,26 @@
   </div>
   <div id="Section-3">
     <div class="container-2 w-container">
-      <h2>About</h2>
-      <p>This page visualizes how various sorting algorithm work.</p>
-      <h3>BubbleSort</h3>
-      <p>
-        Bubblesort works in passes through the structure that holds elements. Durin a
-        pass the algorithm starts at one end works its way through each position of the
-        structure. At each position, it tests whether the current element and its
-        neighbour are correctly ordered. If that is not the case, the elements are
-        swapped.
+      <h2>Description</h2>
+      
+      <h3>Algorithm</h3>
+      <p style="padding-right: 10px;">
+        The Algorithm consists of a few (infinitely) repeating steps. Given three fixed
+        vertices <b>v</b><sub class="sub">1</sub>, <b>v</b><sub class="sub">2</sub>, <b>v</b><sub class="sub">3</sub> (the
+        initial triange) and an additional, freely choosable vertex 
+        <b>v</b><sub class="sub">curr</sub> , the algorithm
       </p>
-      <p>
-        Note that after the first pass, the largest element will be at the very right,
-        where it belongs. This is true, because at each position, the larger of both
-        elements is swapped. At some point during the first pass, the largest element must
-        be swapped with some neighbour. And the again, until it reaches the end. This
-        procedure is the repeated. I.e., after the second pass, the second largest element
-        is correctly placed as second to last element on the right.
-      </p>
-      <p>
-        This notion of letting the largest elements incrementally rise to their correct
-        place to the right is what gives the algorithm its name. The largest elements
-        "bubble up" through the array.
-      </p>
-      <h3>InsertionSort</h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tincidunt erat vel
-        lacus scelerisque gravida. Cras eros enim, lobortis at condimentum at, pretium vel
-        ante. Quisque tincidunt nunc tellus, vel porta mauris aliquam a. Nam sodales, nisl
-        nec malesuada tincidunt, tellus turpis lacinia tellus, ut posuere enim sapien eget
-        nisi. Interdum et malesuada fames ac ante ipsum primis in faucibus. Morbi porta ante
-        est, ut vulputate quam molestie nec. Aliquam erat volutpat. </p>
+      <ol>
+        <li>Chooses one of the three triangle vertices <b>v</b><sub class="sub">1</sub>,
+          <b>v</b><sub class="sub">2</sub>, <b>v</b><sub class="sub">3</sub> randomly</li>
+        <li>Computes the half-way point between the current point and that trianle
+          vertex</li>
+        <li>Sets that computed point as the new <b>v</b><sub class="sub">curr</sub>.</li>
+      </ol>
+      <h3>Result</h3>
+      <p>The result of running the chaose game for an (infinite) amount of time is the
+      famous Sierpinski triangle. That is, if the initial <b>v</b><sub class="sub">curr</sub> is choosen
+      inside the initial triangle</p>
     </div>
   </div>
   <div class="section-4">
