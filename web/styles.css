@@ -9,6 +9,11 @@ body {
   margin: 0
 }
 
+.sub {
+  font-size: x-small;
+  /* background-color: #0082f3; */
+}
+
 main,
 menu,
 nav,
