@@ -8,28 +8,38 @@ class StateManager {
   bool is_running = false;
   bool is_resetting = true;
 
+  num framerate = 3.0;
+  num sketch_speed;
   State _state = State.idle;
+
   final ButtonElement _b_run = querySelector('#b_run');
   final ButtonElement _b_reset = querySelector('#b_reset');
-  // final SelectElement _dd_form = querySelector('#dd_form');
+  final SelectElement _dd_mode = querySelector('#dd_mode');
+  final RangeInputElement _r_speed = querySelector('#r_speed');
 
   StateManager() {
+    sketch_speed = 1000 / framerate;
     _b_run.onClick.listen((event) => {pressedRun()});
     _b_reset.onClick.listen((event) => {pressedReset()});
+    _r_speed.onChange.listen((event) => {changedRange()});
   }
 
   /// Modifies the page's to reflec state changes.
   void idle2run() {
-    // TODO add dropdown selector back in.
-    // var start_config = _dd_form.value;
-    var start_config = 'fixed';
+    var start_config = _dd_mode.value;
+    // var start_config = 'fixed';
     switch (start_config) {
       case 'fixed':
-        print('works?');
+        print('fixed');
         break;
-      case 'insertionSort':
+      case 'start':
+        print('set triangle');
+        break;
+      case 'all':
+        print('free');
         break;
       default:
+        print('lel nope');
         break;
     }
     _state = State.run;
@@ -87,6 +97,11 @@ class StateManager {
   /// Determines the next state based the current state.
   void pressedReset() {
     any2idle();
+  }
+
+  changedRange() {
+    framerate = _r_speed.valueAsNumber;
+    sketch_speed = 1000 / framerate;
   }
 }
 

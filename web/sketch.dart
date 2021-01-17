@@ -6,8 +6,7 @@ import 'stateManager.dart';
 
 class Sketch {
   num _lastTimeStamp = 0;
-  num GAME_SPEED;
-  CanvasElement canvas;
+  CanvasElement canvas = querySelector('#canvasHolder');
   CanvasRenderingContext2D ctx;
 
   List<Point> triangle;
@@ -19,9 +18,7 @@ class Sketch {
 
   StateManager s = StateManager();
 
-  Sketch(double framerate, this.canvas) {
-    GAME_SPEED = 1000 / framerate;
-
+  Sketch() {
     ctx = canvas.getContext('2d');
     canvas.height = 400;
     canvas.width = 600;
@@ -33,7 +30,6 @@ class Sketch {
 
     //Define triangle vertices
     var m = Point(canvas.width / 2, canvas.height / 2);
-
     var h_offset = sin(pi / 3) * canvas.height / 3;
     var v_offset = cos(pi / 3) * canvas.height / 3;
 
@@ -64,7 +60,7 @@ class Sketch {
   void update(num delta) {
     final diff = delta - _lastTimeStamp;
 
-    if (diff > GAME_SPEED) {
+    if (diff > s.sketch_speed) {
       _lastTimeStamp = delta;
       if (s.is_running) drawFrame();
       if (s.is_resetting) _clearCanvas();

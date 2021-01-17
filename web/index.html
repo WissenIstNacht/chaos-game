@@ -42,26 +42,20 @@
         </div>
         <div class="column-3 w-col w-col-3">
           <div class="w-form">
-            <label for="name" id="lbl_algoSelection">Algorithm</label>
-            <select id="dd_form" class="w-select">
-              <option value="bubbleSort" selected="selected">BubbleSort</option>
-              <option value="insertionSort">InsertionSort</option>
-              <option value="mergeSort">MergeSort</option>
-              <option value="quickSort">QuickSort</option>
+            <label for="name" id="lbl_algoSelection">Initial Configuration</label>
+            <select id="dd_mode" class="w-select">
+              <option value="fixed" selected="selected">Fixed</option>
+              <option value="start">Set Start</option>
+              <option value="all">Set Everything</option>
             </select>
-            <label for="name-3" id="lbl_arraySize" class="field-label-2">Array Size</label>
-            <input type="number" class="w-input" maxlength="256" name="field-3"
-              data-name="Field 3" placeholder="between 5 and 20" id="tf_arraySize"
-              required="" min="5" max="20" value="10">
+            <label for="name-3" id="lbl_arraySize" class="field-label-2">Animation Speed</label>
+            <input type="range" class="slider" id="r_speed" 
+            min="1" max="30" value="3">
           </div>
           <div>
-            <div class="w-row">
-              <div class="column-4 w-col w-col-6">
+            <div class="w-row" style="justify-content: space-between; display: flex;">
                 <button type="button" id="b_run" class="button-3 w-button">Run</button>
-              </div>
-              <div class="column-5 w-col w-col-6">
                 <button type="button" id="b_reset" class="button-3 w-button">Reset</button>
-              </div>
             </div>
           </div>
         </div>

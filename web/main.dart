@@ -3,8 +3,7 @@ import 'dart:html';
 import 'sketch.dart';
 
 void main() {
-  var canvas = querySelector('#canvasHolder');
-  Sketch(30.0, canvas).run();
+  Sketch().run();
 }
 
 double map(double value, double from_a, double from_b, double to_a, double to_b) {
