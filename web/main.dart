@@ -1,9 +1,10 @@
 import 'dart:html';
 
 import 'sketch.dart';
+import 'state_manager.dart';
 
 void main() {
-  Sketch().run();
+  final s = StateManager();
 }
 
 double map(double value, double from_a, double from_b, double to_a, double to_b) {

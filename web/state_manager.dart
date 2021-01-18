@@ -1,32 +1,32 @@
 import 'dart:html';
 
+import 'sketch.dart';
+
 /// This class implements a state machine that manages the page's state.
 ///
 /// The machine manages 3 states: idle, running and pausing. The next state is determined
 /// as a function of the user's press of a button and the current state.
 class StateManager {
-  bool is_running = false;
-  bool is_resetting = true;
-
   num framerate = 3.0;
-  num sketch_speed;
   State _state = State.idle;
+  Sketch sketch;
 
-  final ButtonElement _b_run = querySelector('#b_run');
-  final ButtonElement _b_reset = querySelector('#b_reset');
-  final SelectElement _dd_mode = querySelector('#dd_mode');
-  final RangeInputElement _r_speed = querySelector('#r_speed');
+  final ButtonElement _run = querySelector('#b_run');
+  final ButtonElement _reset = querySelector('#b_reset');
+  final SelectElement _mode = querySelector('#dd_mode');
+  final RangeInputElement _speed = querySelector('#r_speed');
 
   StateManager() {
-    sketch_speed = 1000 / framerate;
-    _b_run.onClick.listen((event) => {pressedRun()});
-    _b_reset.onClick.listen((event) => {pressedReset()});
-    _r_speed.onChange.listen((event) => {changedRange()});
+    _run.onClick.listen((event) => {pressedRun()});
+    _reset.onClick.listen((event) => {pressedReset()});
+    _speed.onChange.listen((event) => {changedRange()});
+
+    sketch = Sketch(_speed.valueAsNumber)..run();
   }
 
   /// Modifies the page's to reflec state changes.
   void idle2run() {
-    var start_config = _dd_mode.value;
+    var start_config = _mode.value;
     // var start_config = 'fixed';
     switch (start_config) {
       case 'fixed':
@@ -43,33 +43,33 @@ class StateManager {
         break;
     }
     _state = State.run;
-    _b_reset.disabled = false;
-    is_running = true;
-    is_resetting = false;
-    _b_run.text = 'Pause';
+    _reset.disabled = false;
+    sketch.is_running = true;
+    sketch.is_resetting = false;
+    _run.text = 'Pause';
   }
 
   /// Modifies the page's to reflec state changes.
   void run2pause() {
     _state = State.pause;
-    is_running = false;
-    _b_run.text = 'Continue';
+    sketch.is_running = false;
+    _run.text = 'Continue';
   }
 
   /// Modifies the page's to reflec state changes.
   void pause2run() {
     _state = State.run;
-    is_running = true;
-    _b_run.text = 'Pause';
+    sketch.is_running = true;
+    _run.text = 'Pause';
   }
 
   /// Modifies the page's to reflec state changes.
   void any2idle() {
     _state = State.idle;
-    is_running = false;
-    is_resetting = true;
-    _b_reset.disabled;
-    _b_run.text = 'Run';
+    sketch.is_running = false;
+    sketch.is_resetting = true;
+    _reset.disabled;
+    _run.text = 'Run';
   }
 
   /// Callback for clicked button.
@@ -95,14 +95,12 @@ class StateManager {
   /// Callback for clicked button.
   ///
   /// Determines the next state based the current state.
-  void pressedReset() {
-    any2idle();
-  }
+  void pressedReset() => any2idle();
 
-  changedRange() {
-    framerate = _r_speed.valueAsNumber;
-    sketch_speed = 1000 / framerate;
-  }
+  /// Callback for cahnged range slider.
+  ///
+  /// Determines the sketch's animation speed.
+  void changedRange() => sketch.framerate = _speed.valueAsNumber;
 }
 
 enum State { idle, run, pause }

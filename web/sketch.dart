@@ -2,31 +2,35 @@ import 'dart:html';
 
 import 'dart:math';
 
-import 'stateManager.dart';
-
 class Sketch {
-  num _lastTimeStamp = 0;
   CanvasElement canvas = querySelector('#canvasHolder');
   CanvasRenderingContext2D ctx;
+
+  num _lastTimeStamp = 0;
+  num animation_speed;
+
+  bool is_running = false;
+  bool is_resetting = false;
 
   List<Point> triangle;
   Point curr_loc, prev_loc, rand_vertex;
 
-  Random rand = Random();
+  final Random rand = Random();
 
   AnimationPhase animation_phase = AnimationPhase.curr_location;
 
-  StateManager s = StateManager();
-
-  Sketch() {
+  Sketch(num framerate) {
     ctx = canvas.getContext('2d');
     canvas.height = 400;
     canvas.width = 600;
+    animation_speed = 1000 / framerate;
 
     //draw background
     ctx
       ..scale(1, -1)
       ..translate(0, -canvas.height);
+
+    _clearCanvas();
 
     //Define triangle vertices
     var m = Point(canvas.width / 2, canvas.height / 2);
@@ -60,12 +64,17 @@ class Sketch {
   void update(num delta) {
     final diff = delta - _lastTimeStamp;
 
-    if (diff > s.sketch_speed) {
+    if (diff > animation_speed) {
       _lastTimeStamp = delta;
-      if (s.is_running) drawFrame();
-      if (s.is_resetting) _clearCanvas();
+      if (is_running) drawFrame();
+      if (is_resetting) _clearCanvas();
     }
     run();
+  }
+
+  set framerate(num framerate) {
+    // framerate internally represented as time interval of milliseconds.
+    animation_speed = 1000 / framerate;
   }
 
   void drawFrame() {
