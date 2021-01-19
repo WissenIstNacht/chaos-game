@@ -1,6 +1,8 @@
 import 'dart:html';
 
-import 'sketch.dart';
+import 'algorithm_renderer.dart';
+import 'animation_loop.dart';
+import 'state.dart';
 
 /// This class implements a state machine that manages the page's state.
 ///
@@ -8,8 +10,14 @@ import 'sketch.dart';
 /// as a function of the user's press of a button and the current state.
 class StateManager {
   num framerate = 3.0;
-  State _state = State.idle;
-  Sketch sketch;
+  AnimationLoop loop;
+
+  Map<State, Map<String, State>> graph;
+  IdleState idle_state;
+  RunningState running_state;
+  PausingState pausing_state;
+  State _curr_state;
+  ChaosGameRenderer chaos_game = ChaosGameRenderer.FixedStart();
 
   final ButtonElement _run = querySelector('#b_run');
   final ButtonElement _reset = querySelector('#b_reset');
@@ -17,90 +25,26 @@ class StateManager {
   final RangeInputElement _speed = querySelector('#r_speed');
 
   StateManager() {
-    _run.onClick.listen((event) => {pressedRun()});
-    _reset.onClick.listen((event) => {pressedReset()});
-    _speed.onChange.listen((event) => {changedRange()});
+    loop = AnimationLoop(_speed.valueAsNumber);
+    _run.onClick.listen((_) => changeState('run'));
+    _reset.onClick.listen((_) => changeState('reset'));
+    _speed.onClick.listen((_) => loop.framerate = _speed.valueAsNumber);
 
-    sketch = Sketch(_speed.valueAsNumber)..run();
+    idle_state = IdleState(chaos_game, loop, _run);
+    running_state = RunningState(chaos_game, loop, _run);
+    pausing_state = PausingState(chaos_game, loop, _run);
+    _curr_state = idle_state;
+
+    graph = <State, Map<String, State>>{
+      idle_state: <String, State>{'run': running_state},
+      running_state: <String, State>{'reset': idle_state, 'run': pausing_state},
+      pausing_state: <String, State>{'reset': idle_state, 'run': running_state}
+    };
   }
 
-  /// Modifies the page's to reflec state changes.
-  void idle2run() {
-    var start_config = _mode.value;
-    // var start_config = 'fixed';
-    switch (start_config) {
-      case 'fixed':
-        print('fixed');
-        break;
-      case 'start':
-        print('set triangle');
-        break;
-      case 'all':
-        print('free');
-        break;
-      default:
-        print('lel nope');
-        break;
-    }
-    _state = State.run;
-    _reset.disabled = false;
-    sketch.is_running = true;
-    sketch.is_resetting = false;
-    _run.text = 'Pause';
+  void changeState(String event) {
+    var children = graph[_curr_state];
+    _curr_state = children[event];
+    _curr_state.update();
   }
-
-  /// Modifies the page's to reflec state changes.
-  void run2pause() {
-    _state = State.pause;
-    sketch.is_running = false;
-    _run.text = 'Continue';
-  }
-
-  /// Modifies the page's to reflec state changes.
-  void pause2run() {
-    _state = State.run;
-    sketch.is_running = true;
-    _run.text = 'Pause';
-  }
-
-  /// Modifies the page's to reflec state changes.
-  void any2idle() {
-    _state = State.idle;
-    sketch.is_running = false;
-    sketch.is_resetting = true;
-    _reset.disabled;
-    _run.text = 'Run';
-  }
-
-  /// Callback for clicked button.
-  ///
-  /// Determines the next state based the current state.
-  void pressedRun() {
-    switch (_state) {
-      case State.idle:
-        idle2run();
-        break;
-      case State.run:
-        run2pause();
-        break;
-      case State.pause:
-        pause2run();
-        break;
-      default:
-        print('State machine in undefined state!');
-        break;
-    }
-  }
-
-  /// Callback for clicked button.
-  ///
-  /// Determines the next state based the current state.
-  void pressedReset() => any2idle();
-
-  /// Callback for cahnged range slider.
-  ///
-  /// Determines the sketch's animation speed.
-  void changedRange() => sketch.framerate = _speed.valueAsNumber;
 }
-
-enum State { idle, run, pause }

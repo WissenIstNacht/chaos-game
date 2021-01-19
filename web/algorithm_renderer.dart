@@ -1,36 +1,27 @@
 import 'dart:html';
-
 import 'dart:math';
 
-class Sketch {
-  CanvasElement canvas = querySelector('#canvasHolder');
-  CanvasRenderingContext2D ctx;
-
-  num _lastTimeStamp = 0;
-  num animation_speed;
-
-  bool is_running = false;
-  bool is_resetting = false;
-
+class ChaosGameRenderer {
   List<Point> triangle;
   Point curr_loc, prev_loc, rand_vertex;
+
+  final CanvasElement canvas = querySelector('#canvasHolder');
+  CanvasRenderingContext2D ctx;
 
   final Random rand = Random();
 
   AnimationPhase animation_phase = AnimationPhase.curr_location;
 
-  Sketch(num framerate) {
+  ChaosGameRenderer.FixedStart() {
     ctx = canvas.getContext('2d');
     canvas.height = 400;
     canvas.width = 600;
-    animation_speed = 1000 / framerate;
 
-    //draw background
     ctx
       ..scale(1, -1)
       ..translate(0, -canvas.height);
 
-    _clearCanvas();
+    clearCanvas();
 
     //Define triangle vertices
     var m = Point(canvas.width / 2, canvas.height / 2);
@@ -57,27 +48,7 @@ class Sketch {
     prev_loc = Point(-100, -100); //instantiate to location outside canvas.
   }
 
-  Future run() async {
-    update(await window.animationFrame);
-  }
-
-  void update(num delta) {
-    final diff = delta - _lastTimeStamp;
-
-    if (diff > animation_speed) {
-      _lastTimeStamp = delta;
-      if (is_running) drawFrame();
-      if (is_resetting) _clearCanvas();
-    }
-    run();
-  }
-
-  set framerate(num framerate) {
-    // framerate internally represented as time interval of milliseconds.
-    animation_speed = 1000 / framerate;
-  }
-
-  void drawFrame() {
+  step() {
     switch (animation_phase) {
       case AnimationPhase.curr_location:
         //triangle vertices black, prev location black, current location blue
@@ -132,7 +103,9 @@ class Sketch {
     }
   }
 
-  void _clearCanvas() {
+  // void render() {}
+
+  void clearCanvas() {
     ctx
       ..lineWidth = 2
       ..setFillColorRgb(220, 220, 220)
