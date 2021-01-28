@@ -1,7 +1,8 @@
 import 'dart:html';
 
+import 'package:animation_loop/animation_loop.dart';
+
 import 'algorithm_renderer.dart';
-import 'animation_loop.dart';
 import 'state.dart';
 
 /// This class implements a state machine that manages the page's state.
@@ -28,7 +29,7 @@ class StateManager {
     loop = AnimationLoop(_speed.valueAsNumber);
     _run.onClick.listen((_) => changeState('run'));
     _reset.onClick.listen((_) => changeState('reset'));
-    _speed.onClick.listen((_) => loop.framerate = _speed.valueAsNumber);
+    _speed.onClick.listen((_) => loop.executionRate = _speed.valueAsNumber);
 
     idle_state = IdleState(chaos_game, loop, _run);
     running_state = RunningState(chaos_game, loop, _run);

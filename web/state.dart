@@ -1,7 +1,8 @@
 import 'dart:html';
 
+import 'package:animation_loop/animation_loop.dart';
+
 import 'algorithm_renderer.dart';
-import 'animation_loop.dart';
 
 abstract class State {
   ChaosGameRenderer sketch;

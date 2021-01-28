@@ -15,6 +15,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.40.6"
+  animation_loop:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: abbf291f104c3c9f86ee710c32568d621a719526
+      url: "https://github.com/WissenIstNacht/animation_loop.git"
+    source: git
+    version: "0.0.0"
   archive:
     dependency: transitive
     description:

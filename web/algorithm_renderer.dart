@@ -48,7 +48,7 @@ class ChaosGameRenderer {
     prev_loc = Point(-100, -100); //instantiate to location outside canvas.
   }
 
-  step() {
+  void step() {
     switch (animation_phase) {
       case AnimationPhase.curr_location:
         //triangle vertices black, prev location black, current location blue
