@@ -45,7 +45,14 @@ class StateManager {
 
   void changeState(String event) {
     var children = graph[_curr_state];
-    _curr_state = children[event];
+    var nextState = children[event];
+
+    if (nextState == running_state) {
+      var newLoop = AnimationLoop(_speed.valueAsNumber);
+      nextState.loop = newLoop;
+      pausing_state.loop = newLoop;
+    }
+    _curr_state = nextState;
     _curr_state.update();
   }
 }
